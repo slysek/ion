@@ -28,7 +28,7 @@ std::vector<double> Gradient(const std::vector<double>& y, const std::vector<dou
     return gradient;
 }
 
-void GenerateQercfTable(const Ion& i1, const Ion& i2, const double rho, const double cutoff){
+std::string GenerateQercfTable(const Ion& i1, const Ion& i2, const double rho, const double cutoff){
 
     int steps = 990;
     double max = 10;
@@ -57,7 +57,9 @@ void GenerateQercfTable(const Ion& i1, const Ion& i2, const double rho, const do
     record += "_" + i1.label + "_" + i2.label;
     record += "\n";
     record += "N";
-    record += "\t" + std::to_string(steps) + " R" + std::to_string(r0) + " " + std::to_string(max);
+    record += "\t" + std::to_string(steps) + " R";
+    record += "\t";
+    record += std::to_string(r0) + " " + std::to_string(max);
     record += "\n";
     record += "\n";
     for(int k = 0; k < grad.size(); k++){
@@ -72,10 +74,7 @@ void GenerateQercfTable(const Ion& i1, const Ion& i2, const double rho, const do
         record += "\n";
     }
 
-    std::string nazwa_pliku = "C:/Users/szymon/CLionProjects/ion/QERFC_" + i1.label + "_" + i2.label;
-
-    std::ofstream plik(nazwa_pliku);
-    plik << record;
+    return record;
 }
 
 //KONIEC DODANEGO KODU
@@ -149,8 +148,11 @@ std::vector<std::string> ExportToLAMMPS (
 
         // TODO: (1) generate Q*erfc potential tables
 
-        GenerateQercfTable(ions[q.ion1], ions[q.ion2], q.rho, q.cutoff);
+        std::string r = GenerateQercfTable(ions[q.ion1], ions[q.ion2], q.rho, q.cutoff);
+        std::string nazwa_pliku = "C:/Users/szymon/CLionProjects/ion/" + filename_core + ".table ";
 
+        std::ofstream plik(nazwa_pliku, std::ios::app);
+        plik << r;
 
     }
 

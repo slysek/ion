@@ -9,7 +9,7 @@ int main() {
 
     std::vector<PotentialMorse> morse = {PotentialMorse(0, 1, 0.5, 1.5, 2.0, 3.0), PotentialMorse(1, 2, 0.5, 1.5, 2.0, 3.0)};
 
-    std::vector<PotentialQerfc> qerfc = {PotentialQerfc(0, 0, 1.9650, 0.3)};
+    std::vector<PotentialQerfc> qerfc = {PotentialQerfc(0, 0, 1.9650, 0.3), PotentialQerfc(1, 1, 1.9650, 0.3)};
     std::vector<Potential3Body> cosine = {};
 
     auto output = ExportToLAMMPS(filename_core, ions, morse, qerfc, cosine);
