@@ -133,6 +133,7 @@ std::vector<std::string> ExportToLAMMPS (
 
     // Qerfc potentials in LAMMPS script
     lammps_script += "# Q*erfc potentials\n";
+    std::string r;
     for (const PotentialQerfc &q : qerfc)
     {
         std::string record ("pair_coeff ");
@@ -148,12 +149,8 @@ std::vector<std::string> ExportToLAMMPS (
 
         // TODO: (1) generate Q*erfc potential tables
 
-        std::string r = GenerateQercfTable(ions[q.ion1], ions[q.ion2], q.rho, q.cutoff);
-        std::string nazwa_pliku = "C:/Users/szymon/CLionProjects/ion/" + filename_core + ".table ";
-
-        std::ofstream plik(nazwa_pliku, std::ios::app);
-        plik << r;
-
+        std::string ion_table = GenerateQercfTable(ions[q.ion1], ions[q.ion2], q.rho, q.cutoff);
+        r += ion_table;
     }
 
     // TODO: (2) Generate three-body potential tables and LAMMPS script
@@ -164,7 +161,7 @@ std::vector<std::string> ExportToLAMMPS (
     // Prepare array with strings containing output files content
     std::vector<std::string> output_files;
     output_files.push_back (lammps_script); // LAMMPS input script - the first element of output array
-
+    output_files.push_back(r); // Drugi element listy ktory zawiera dane .table
     return output_files;
 }
 

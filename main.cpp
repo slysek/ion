@@ -1,6 +1,7 @@
 #include "export_lammps.h"
 #include <vector>
 #include <iostream>
+#include <fstream>
 
 int main() {
     std::string filename_core = "lammps_simulation";
@@ -13,6 +14,9 @@ int main() {
     std::vector<Potential3Body> cosine = {};
 
     auto output = ExportToLAMMPS(filename_core, ions, morse, qerfc, cosine);
+    std::string name = filename_core + ".table"; // TUTAJ TRZEBA WPISAC SCIEZKE DO PLIKU .table
+    std::fstream table_file(name);
+    table_file << output[1];
 
     for (const auto& script : output) {
         std::cout << script << "\n";
